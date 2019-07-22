@@ -41,9 +41,7 @@ public class DecodeBase64X509CertificateAction extends AnAction {
             X509Certificate cert = decodeBase64X509Certificate(selectionModel.getSelectedText());
 
             title = "Certificate details";
-            message.append(String.format("Subject X500 Principle: %s\n\n", cert.getSubjectX500Principal()));
-            message.append(String.format("Not Before: %s\n\n", cert.getNotBefore()));
-            message.append(String.format("Not After: %s", cert.getNotAfter()));
+            updateMessageWithCertDetails(message, cert);
 
         } catch (CertificateNotFoundException e) {
             title = "I see no certs";
@@ -56,11 +54,16 @@ public class DecodeBase64X509CertificateAction extends AnAction {
         Messages.showMessageDialog(message.toString(), title, null);
     }
 
-
     @Override
     public void update(AnActionEvent e) {
         Project project = e.getProject();
         e.getPresentation().setEnabledAndVisible(project != null);
+    }
+
+    private void updateMessageWithCertDetails(StringBuffer message, X509Certificate cert) {
+        message.append(String.format("Subject X500 Principle: %s\n\n", cert.getSubjectX500Principal()));
+        message.append(String.format("Not Before: %s\n\n", cert.getNotBefore()));
+        message.append(String.format("Not After: %s", cert.getNotAfter()));
     }
 
     private void tryToFindAndSelectEncodedCertificate(Editor editor) throws CertificateNotFoundException {
