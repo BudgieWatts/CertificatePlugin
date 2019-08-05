@@ -1,24 +1,19 @@
 <idea-plugin>
-    <id>uk.gov.verify.CertificatePlugin</id>
-    <name>MyPlugin display name goes here</name>
-    <vendor email="supported@yourcompany.com" url="http://www.myyourcompany.com">MyYourCompany</vendor>
+    <id>website.predictionleague.CertificatePlugin</id>
+    <name>Certificate Decoder</name>
+    <vendor email="drwatts.jw@googlemail.com" url="http://www.predictionleague.website">John Watts</vendor>
 
-    <description>Does stuff. Really does do stuff. I need 40 characters for this to shut up and stop complaining. Come on ... This must be close to 40 characters now.</description>
-
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
+    <description><![CDATA[Decodes Base64 X509 Certificates.  If the caret is between BEGIN CERTIFICATE and END CERTIFICATE lines it will try to decode the certificate contained therein, otherwise it attempts to decode the selected text.]]></description>
+    <idea-version since-build="173.*" until-build="192.*"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
     </extensions>
 
     <actions>
-        <group id="MyPlugin.SampleMenu" text="Certificates" description="Certificates Menu">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="uk.gov.verify.plugins.certificates.DecodeBase64X509CertificateAction" class="uk.gov.verify.plugins.certificates.DecodeBase64X509CertificateAction" text="Decode Certificate" description="Decodes base64 X509 certificates"/>
+        <group id="CertificateDecoder.Menu" text="Certificates" description="Certificates menu option">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <action id="website.predictionleague.plugins.certificates.DecodeBase64X509CertificateAction" class="website.predictionleague.plugins.certificates.DecodeBase64X509CertificateAction" text="Decode Certificate" description="Decodes base64 X509 certificates"/>
         </group>
     </actions>
 </idea-plugin>

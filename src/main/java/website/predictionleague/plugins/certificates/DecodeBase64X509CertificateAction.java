@@ -1,4 +1,4 @@
-package uk.gov.verify.plugins.certificates;
+package website.predictionleague.plugins.certificates;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -24,7 +24,7 @@ public class DecodeBase64X509CertificateAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
         StringBuffer message = new StringBuffer();
         String title;
-        SelectionModel selectionModel = null;
+        SelectionModel selectionModel;
 
         Editor editor = event.getData(CommonDataKeys.EDITOR);
         if (editor == null) {
@@ -87,10 +87,22 @@ public class DecodeBase64X509CertificateAction extends AnAction {
 
         while (lineNumber >= 0) {
             if (document.getText(DocumentUtil.getLineTextRange(document, lineNumber)).equals("-----BEGIN CERTIFICATE-----")) {
+                caret.moveToLogicalPosition(new LogicalPosition(lineNumber, 0));
                 return lineNumber + 1;
             }
             lineNumber--;
         }
+
+        // Maybe there is a cert in this editor window, it's just it's below the caret
+        lineNumber = logicalPosition.line;
+        while (lineNumber <= document.getLineCount() - 1) {
+            if (document.getText(DocumentUtil.getLineTextRange(document, lineNumber)).equals("-----BEGIN CERTIFICATE-----")) {
+                caret.moveToLogicalPosition(new LogicalPosition(lineNumber, 0));
+                return lineNumber + 1;
+            }
+            lineNumber++;
+        }
+
         throw new CertificateNotFoundException("Could not find -----BEGIN CERTIFICATE----- on or above the caret");
     }
 
