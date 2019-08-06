@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.intellij' version '0.4.9'
 }
 
-group 'website.predictionleague'
-version '1.0-SNAPSHOT'
+group 'dev.johnwatts.plugins'
+version '0.5-SNAPSHOT'
 
 sourceCompatibility = 1.8
 

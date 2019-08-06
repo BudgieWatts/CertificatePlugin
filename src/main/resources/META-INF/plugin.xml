@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>website.predictionleague.CertificatePlugin</id>
     <name>Certificate Decoder</name>
-    <vendor email="drwatts.jw@googlemail.com" url="http://www.predictionleague.website">John Watts</vendor>
+    <vendor email="email@johnwatts.dev" url="http://www.johnwatts.dev">John Watts</vendor>
 
     <description><![CDATA[Decodes Base64 X509 Certificates.  If the caret is between BEGIN CERTIFICATE and END CERTIFICATE lines it will try to decode the certificate contained therein, otherwise it attempts to decode the selected text.]]></description>
     <idea-version since-build="173.*" until-build="192.*"/>
@@ -13,7 +13,7 @@
     <actions>
         <group id="CertificateDecoder.Menu" text="Certificates" description="Certificates menu option">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            <action id="website.predictionleague.plugins.certificates.DecodeBase64X509CertificateAction" class="website.predictionleague.plugins.certificates.DecodeBase64X509CertificateAction" text="Decode Certificate" description="Decodes base64 X509 certificates"/>
+            <action id="dev.johnwatts.plugins.certificates.DecodeBase64X509CertificateAction" class="dev.johnwatts.plugins.certificates.DecodeBase64X509CertificateAction" text="Decode Certificate" description="Decodes base64 X509 certificates"/>
         </group>
     </actions>
 </idea-plugin>
