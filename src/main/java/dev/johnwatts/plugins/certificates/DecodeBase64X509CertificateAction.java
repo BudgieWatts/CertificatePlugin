@@ -61,9 +61,11 @@ public class DecodeBase64X509CertificateAction extends AnAction {
     }
 
     private void updateMessageWithCertDetails(StringBuffer message, X509Certificate cert) {
+        message.append(String.format("Issuer X500 Principle: %s\n\n", cert.getIssuerX500Principal()));
         message.append(String.format("Subject X500 Principle: %s\n\n", cert.getSubjectX500Principal()));
         message.append(String.format("Not Before: %s\n\n", cert.getNotBefore()));
         message.append(String.format("Not After: %s", cert.getNotAfter()));
+        message.append(String.format("Public Key:\n\n%s", cert.getPublicKey().toString()));
     }
 
     private void tryToFindAndSelectEncodedCertificate(Editor editor) throws CertificateNotFoundException {
