@@ -18,6 +18,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
+import static dev.johnwatts.plugins.certificates.CertificateStringFactory.Field.*;
 
 public class DecodeBase64X509CertificateAction extends AnAction {
     @Override
@@ -61,11 +62,14 @@ public class DecodeBase64X509CertificateAction extends AnAction {
     }
 
     private void updateMessageWithCertDetails(StringBuffer message, X509Certificate cert) {
+/*
         message.append(String.format("Issuer X500 Principle: %s\n\n", cert.getIssuerX500Principal()));
         message.append(String.format("Subject X500 Principle: %s\n\n", cert.getSubjectX500Principal()));
         message.append(String.format("Not Before: %s\n\n", cert.getNotBefore()));
         message.append(String.format("Not After: %s", cert.getNotAfter()));
         message.append(String.format("Public Key:\n\n%s", cert.getPublicKey().toString()));
+*/
+        message.append(CertificateStringFactory.output(cert, ISSUER, SUBJECT, NOT_BEFORE, NOT_AFTER, PUBLIC_KEY));
     }
 
     private void tryToFindAndSelectEncodedCertificate(Editor editor) throws CertificateNotFoundException {
