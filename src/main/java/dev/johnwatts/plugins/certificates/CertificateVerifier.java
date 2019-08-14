@@ -1,18 +1,19 @@
 package dev.johnwatts.plugins.certificates;
 
 import com.intellij.openapi.ui.Messages;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import picocli.CommandLine;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.swing.*;
 import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -78,6 +79,7 @@ public class CertificateVerifier implements Callable<Integer> {
     }
 
     private void makeX509() throws CertificateException, IOException {
+        Security.addProvider(new BouncyCastleProvider());
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         byte[] decodedCert = decodeBase64File(cert);
         this.x509 =  (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(decodedCert));
