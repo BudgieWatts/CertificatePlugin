@@ -1,4 +1,4 @@
-package dev.johnwatts.plugins.certificates;
+package dev.johnwatts.plugins.certificates.strategies;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;

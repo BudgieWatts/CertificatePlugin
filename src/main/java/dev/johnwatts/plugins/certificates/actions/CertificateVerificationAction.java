@@ -1,8 +1,9 @@
-package dev.johnwatts.plugins.certificates;
+package dev.johnwatts.plugins.certificates.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.Messages;
+import dev.johnwatts.plugins.certificates.verifier.CertificateVerifier;
 import org.jetbrains.annotations.NotNull;
 
 import javax.crypto.BadPaddingException;

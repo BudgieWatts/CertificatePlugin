@@ -1,31 +1,34 @@
-package dev.johnwatts.plugins.certificates;
+package dev.johnwatts.plugins.certificates.strategies;
 
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.util.DocumentUtil;
-
-import java.security.cert.X509Certificate;
-import java.util.Optional;
+import dev.johnwatts.plugins.certificates.shared.CertificateNotFoundException;
+import dev.johnwatts.plugins.certificates.shared.Result;
 
 public class FindByBeginAndEnd implements CertificateFindingStrategy<Editor> {
     // TODO - refactor this so that FindByBeginAndEnd<Editor> FindByBeginAndEnd<File> are things.
-    public Optional<X509Certificate> find(Editor editor) {
+    public Result find(Editor editor) {
         int startOfEncodedCert;
         int endOfEncodedCert;
+
+        Result result = new Result();
 
         try {
             startOfEncodedCert = findStartOfEncodedCert(editor);
             endOfEncodedCert = findEndOfEncodedCert(editor);
         } catch (CertificateNotFoundException e) {
-            return Optional.empty();
+            result.setMessage(e.getMessage());
+            return result;
         }
 
         editor.getSelectionModel().setSelection(
                 editor.getDocument().getLineStartOffset(startOfEncodedCert),
                 editor.getDocument().getLineEndOffset(endOfEncodedCert));
-            return Base64X509Decoder.decode(editor.getSelectionModel().getSelectedText());
+        result.setCertificate(Base64X509Decoder.decode(editor.getSelectionModel().getSelectedText()));
+        return result;
     }
 
     private int findStartOfEncodedCert(Editor editor) throws CertificateNotFoundException {

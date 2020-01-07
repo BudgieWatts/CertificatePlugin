@@ -1,4 +1,4 @@
-package dev.johnwatts.plugins.certificates;
+package dev.johnwatts.plugins.certificates.verifier;
 
 import com.intellij.openapi.ui.Messages;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
