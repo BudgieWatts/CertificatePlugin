@@ -21,13 +21,12 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2019.2'
+    version '2019.3'
 }
 
 patchPluginXml {
     sinceBuild '173.*'
-    untilBuild '192.*'
+    untilBuild '193.*'
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      Change is inevitable, embrace it."""
 }

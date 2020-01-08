@@ -1,10 +1,14 @@
 <idea-plugin>
-    <id>website.predictionleague.CertificatePlugin</id>
+    <id>dev.johnwatts.CertificatePlugin</id>
     <name>Certificate Decoder</name>
-    <vendor email="email@johnwatts.dev" url="http://www.johnwatts.dev">John Watts</vendor>
+    <vendor email="cert.plugin@johnwatts.dev" url="https://www.johnwatts.dev">John Watts</vendor>
 
-    <description><![CDATA[Decodes Base64 X509 Certificates.  If the caret is between BEGIN CERTIFICATE and END CERTIFICATE lines it will try to decode the certificate contained therein, otherwise it attempts to decode the selected text.]]></description>
-    <idea-version since-build="173.*" until-build="192.*"/>
+    <description><![CDATA[<p>Decodes Base64 X509 Certificates and displays some of the information contained in the certificate.</p>
+    <ul><li>First tries to decode any selected text; if that fails:</li>
+    <li>Looks in the editor window for a PEM formatted cert to decode</li></ul>
+    <p>Also checks whether encryption / decryption works for a given key pair.</p>
+     ]]></description>
+    <idea-version since-build="173.*" until-build="193.*"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
