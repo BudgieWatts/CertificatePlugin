@@ -17,6 +17,7 @@
     <actions>
         <group id="CertificateDecoder.Menu" text="Certificates" description="Certificates menu option">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
             <action id="dev.johnwatts.plugins.certificates.actions.DecodeBase64X509CertificateAction" class="dev.johnwatts.plugins.certificates.actions.DecodeBase64X509CertificateAction" text="Decode Certificate" description="Decodes base64 X509 certificates"/>
             <action id="dev.johnwatts.plugins.certificates.actions.CertificateVerificationAction" class="dev.johnwatts.plugins.certificates.actions.CertificateVerificationAction" text="Verify Certificate/Private Key" description="Verifies that X509 cert and private key are a pair"/>
         </group>

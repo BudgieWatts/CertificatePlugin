@@ -1,34 +1,42 @@
 package dev.johnwatts.plugins.certificates.strategies;
 
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.util.DocumentUtil;
 import dev.johnwatts.plugins.certificates.shared.CertificateNotFoundException;
+import dev.johnwatts.plugins.certificates.shared.NoSourceException;
 import dev.johnwatts.plugins.certificates.shared.Result;
 
-public class FindByBeginAndEnd implements CertificateFindingStrategy<Editor> {
-    // TODO - refactor this so that FindByBeginAndEnd<Editor> FindByBeginAndEnd<File> are things.
-    public Result find(Editor editor) {
+public class FindByBeginAndEnd extends FromEditorFindingStrategy {
+    @Override
+    public Result find(AnActionEvent source) {
         int startOfEncodedCert;
         int endOfEncodedCert;
 
         Result result = new Result();
-
+        Editor editor = null;
         try {
-            startOfEncodedCert = findStartOfEncodedCert(editor);
-            endOfEncodedCert = findEndOfEncodedCert(editor);
-        } catch (CertificateNotFoundException e) {
-            result.setMessage(e.getMessage());
-            return result;
-        }
+            editor = this.getSource(source);
+            try {
+                startOfEncodedCert = findStartOfEncodedCert(editor);
+                endOfEncodedCert = findEndOfEncodedCert(editor);
+            } catch (CertificateNotFoundException e) {
+                result.setMessage(e.getMessage());
+                return result;
+            }
 
-        editor.getSelectionModel().setSelection(
-                editor.getDocument().getLineStartOffset(startOfEncodedCert),
-                editor.getDocument().getLineEndOffset(endOfEncodedCert));
-        result.setCertificate(Base64X509Decoder.decode(editor.getSelectionModel().getSelectedText()));
-        return result;
+            editor.getSelectionModel().setSelection(
+                    editor.getDocument().getLineStartOffset(startOfEncodedCert),
+                    editor.getDocument().getLineEndOffset(endOfEncodedCert));
+            result.setCertificate(Base64X509Decoder.decode(editor.getSelectionModel().getSelectedText()));
+            return result;
+        } catch (NoSourceException e) {
+            result = Result.exceptionThrown(e);
+        }
+        return Result.noCertificateFound();
     }
 
     private int findStartOfEncodedCert(Editor editor) throws CertificateNotFoundException {

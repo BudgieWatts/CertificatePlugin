@@ -57,9 +57,4 @@ public class CertificateVerificationAction extends AnAction {
         jfc.showOpenDialog(jfc);
         return jfc.getSelectedFile();
     }
-
-    public static void main(String[] args) {
-        CertificateVerificationAction action = new CertificateVerificationAction();
-        action.actionPerformed(null);
-    }
 }

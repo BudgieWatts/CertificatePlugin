@@ -6,7 +6,7 @@ plugins {
 mainClassName = 'dev.johnwatts.plugins.certificates.CertificateVerifier'
 
 group 'dev.johnwatts.plugins'
-version '0.5-SNAPSHOT'
+version '1.0'
 
 sourceCompatibility = 1.8
 
