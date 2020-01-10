@@ -27,4 +27,8 @@ intellij {
 patchPluginXml {
     sinceBuild '192.7142'
     untilBuild '193.*'
+    changeNotes """
+      Add action to context menu if certificate will be found, otherwise hide action.
+      Move cert/key verification to tools menu.
+      """
 }

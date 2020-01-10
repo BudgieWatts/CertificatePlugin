@@ -1,7 +1,6 @@
 package dev.johnwatts.plugins.certificates.strategies;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.vfs.VirtualFile;
 import dev.johnwatts.plugins.certificates.shared.NoSourceException;
 import dev.johnwatts.plugins.certificates.shared.Result;
 
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Base64;
 import java.util.Optional;
 
 public class FindFromDer extends FromFileFindingStrategy  {
