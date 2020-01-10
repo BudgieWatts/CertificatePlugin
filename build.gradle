@@ -25,8 +25,6 @@ intellij {
 }
 
 patchPluginXml {
-    sinceBuild '173.*'
+    sinceBuild '192.7142'
     untilBuild '193.*'
-    changeNotes """
-      Change is inevitable, embrace it."""
 }
