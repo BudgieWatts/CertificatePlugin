@@ -1,0 +1,22 @@
+language: java
+
+script:
+  - ./gradlew buildPlugin
+
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export TRAVIS_TAG=$TRAVIS_BRANCH-0.1.$TRAVIS_BUILD_NUMBER
+  - git tag $TRAVIS_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: DSTbu7C1jYcuaqd04Da8R7QyUbMqDu39BqyyW6G+w19jUCQ95pBUSgy30uF4XQ5kqgSzVZyTEOujhyLSDLcz2/kXtfmMcvyCCTmUBaehZQuKc9kFutVoO+ZH4tY1qpXORhcF/PLQfNzmoHW6MXszFaqpel6EnarpJI3e2xacT2BaABGRn20P7q08uz6kfxvl+rmSRchFgNzdQuKM0mNslH3CSedxXjudlKCGfXcUEops7Rq4bpRU3nvx+lzsWpRXIOOw1RZDCqyPsx4aBUoHEbNzHOLi4ONpWIE2HI8vxhQ9no1vN8SK4tmOBnocyrpjxwJgOmoyBt2e0a2xjp6hBIVIOlUC0foFRdTeW9H2z3YL2zwMDqdeK8k+epsjTt4iz5imHzM7B6M47mlfVqMs+4+BlBXtz0S4/BlEDm3sVFz4+OU2hlJmIr3Sa+xfzyATpYTN8jYD2ErYRmNYVhaBCDPqBsPaL2DWPfYj8c7cAlxj6f27fnDDoB3SU1Ppk7/HqPZwmsImdMMTzQnVDQqw9T6pwaCQFBCvpWiHtB4aZH2u5T9xx/mgEJLyemX89YlpKV+GnsErFcXN3w6o6ECzAeYtcJIA4wLel8S726cEqOXUM/MS8V7LJ1GCfeqAOxyHQLgoTNxtH0UkzPnhnA+QKS+HX7NVNFrzh4IBYU2Uwyg=
+  file: build/distributions/CertificatePlugin-1.0.zip
+  skip_cleanup: true
+  on:
+    repo: BudgieWatts/CertificatePlugin
+    branches:
+      only:
+        - master

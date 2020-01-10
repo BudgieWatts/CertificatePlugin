@@ -96,7 +96,7 @@ class CertificateDisplayPanel implements Supplier<JComponent> {
             panelBuilder.setInsets(new Insets(0, 0, 5, 5));
             List<ASN1ObjectIdentifier> attributeTypes = Arrays.asList(x500Name.getAttributeTypes());
             Collections.reverse(attributeTypes);
-            Set<ASN1ObjectIdentifier> attributeSet = new LinkedHashSet(attributeTypes);
+            Set<ASN1ObjectIdentifier> attributeSet = new LinkedHashSet<>(attributeTypes);
 
             PirateBCStyle pirateBCStyle = new PirateBCStyle();
 
