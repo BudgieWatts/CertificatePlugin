@@ -8,9 +8,22 @@ To install the plugin manually:
  
  * Download a release from GitHub, or
  
- * Run `gradlew buildPlugin` which puts the built plugin in `build/distributions`
+ * Run `gradlew clean buildPlugin` which puts the built plugin in `build/distributions`
  
  * navigate to `IntelliJ IDEA/Preferences/Plugins`, click the gear-icon next to the `Market Place` and `Installed` tabs, select `Install Plugin from Disk...' and navigate to the plugin zip file you downloaded or built.
+ 
+### Installing with an incompatible version of IntelliJ
+
+IntelliJ checks whether the plugin is compatible with the running version by reading two values form `resources/META-INF/plugin.xml`.  Some versions of IntelliJ run under Java 8 by default and won't be able to use this plugin.
+However, if your version of IntelliJ runs under Java 11 it may be able to use the plugin anyway.  If you get a message saying the plugin is incompatible when try to install it, you might be able to get it to work if you take the following steps before running the `./gradlew clean buildPlugin` step above:
+
+* Note the build number of your version of IntelliJ found through the 'About IntelliJ IDEA' menu (you only need the first part; probably 191 or 192)
+
+* Open `build.gradle` and alter the value of `sinceBuild '192.7142'` to `'[your build number].*'`.
+
+* Follow the build and install instructions above.
+
+Your results may vary but it definitely won't work if your version of IntelliJ is running under Java 8.  See the [JetBrains docs](https://intellij-support.jetbrains.com/hc/en-us/articles/206544879-Selecting-the-JDK-version-the-IDE-will-run-under) for instructions on how to change the JDK to Java 11 or later.
  
 ## Usage
 
