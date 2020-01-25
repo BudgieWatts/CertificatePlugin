@@ -1,12 +1,12 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.9'
+    id 'org.jetbrains.intellij' version '0.4.15'
     id 'application'
 }
 mainClassName = 'dev.johnwatts.plugins.certificates.CertificateVerifier'
 
 group 'dev.johnwatts.plugins'
-version '1.0'
+version '1.0.1'
 
 sourceCompatibility = 1.8
 
@@ -26,9 +26,9 @@ intellij {
 
 patchPluginXml {
     sinceBuild '192.7142'
-    untilBuild '193.*'
+    untilBuild '201.*'
     changeNotes """
-      Add action to context menu if certificate will be found, otherwise hide action.
-      Move cert/key verification to tools menu.
+      Updated compatibility to 2020.1
+      Removed flippant button text.
       """
 }
