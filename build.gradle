@@ -6,9 +6,9 @@ plugins {
 mainClassName = 'dev.johnwatts.plugins.certificates.CertificateVerifier'
 
 group 'dev.johnwatts.plugins'
-version '1.0.1'
+version '1.0.2'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ patchPluginXml {
     sinceBuild '192.7142'
     untilBuild '201.*'
     changeNotes """
-      Updated compatibility to 2020.1
-      Removed flippant button text.
+      Force refresh of virtual file when plugin invoked - if you pasted a certificate into a file to replace the contents and then right clicked, the plugin would work with the previous contents unless the virtual file had been updated.
+      There may be a better way to deal with this (certainly not involving synchronous refreshes) but this should work for now.
       """
 }
