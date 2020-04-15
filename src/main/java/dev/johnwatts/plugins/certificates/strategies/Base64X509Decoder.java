@@ -1,7 +1,7 @@
 package dev.johnwatts.plugins.certificates.strategies;
 
 import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -9,16 +9,16 @@ import java.util.Base64;
 import java.util.Optional;
 
 public class Base64X509Decoder {
+
+    private Base64X509Decoder() {
+    }
+
     public static Optional<X509Certificate> decode(String encodedCert) {
-        try {
-            return decode(encodedCert.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            return Optional.empty();
-        }
+        return decode(encodedCert.getBytes(StandardCharsets.UTF_8));
     }
 
     public static Optional<X509Certificate> decode(byte[] encodedCert) {
-        byte decodedCert[] = Base64.getMimeDecoder().decode(encodedCert);
+        byte[] decodedCert = Base64.getMimeDecoder().decode(encodedCert);
         try {
             CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
             return Optional.of(
