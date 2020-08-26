@@ -36,55 +36,56 @@ class CertificateDisplayPanel implements Supplier<JComponent> {
 
         PanelBuilder panelBuilder = new PanelBuilder();
 
-        X509Certificate certificate = this.result.getCertificate().get();
+        List<X509Certificate> certificates = this.result.getCertificates();
 
-        X500Name subjectX500name;
+        for (X509Certificate certificate : certificates) {
+            X500Name subjectX500name;
 
-        try {
-            subjectX500name = new JcaX509CertificateHolder(certificate).getSubject();
-        } catch (CertificateEncodingException e) {
-            panelBuilder.addLabel("Something went wrong parsing the subject distinguished name.");
-            return panelBuilder.getPanel();
-        }
+            try {
+                subjectX500name = new JcaX509CertificateHolder(certificate).getSubject();
+            } catch (CertificateEncodingException e) {
+                panelBuilder.addLabel("Something went wrong parsing the subject distinguished name.");
+                return panelBuilder.getPanel();
+            }
 
-        X500Name issuerX500name;
+            X500Name issuerX500name;
 
-        try {
-            issuerX500name = new JcaX509CertificateHolder(certificate).getIssuer();
-        } catch (CertificateEncodingException e) {
-            panelBuilder.addLabel("Something went wrong parsing the issuer distinguished name.");
-            return panelBuilder.getPanel();
-        }
+            try {
+                issuerX500name = new JcaX509CertificateHolder(certificate).getIssuer();
+            } catch (CertificateEncodingException e) {
+                panelBuilder.addLabel("Something went wrong parsing the issuer distinguished name.");
+                return panelBuilder.getPanel();
+            }
 
-        panelBuilder.setAnchor(GridBagConstraints.WEST);
-        panelBuilder.setFill(GridBagConstraints.NONE);
-        panelBuilder.addLabelledComponent("Subject:", X500NamePanelBuilder.getPanel(subjectX500name));
-        panelBuilder.setFill(GridBagConstraints.HORIZONTAL);
-
-        if ( issuerX500name.equals(subjectX500name) ) {
-            panelBuilder.addLabelledText("", "Self-signed");
-        } else {
             panelBuilder.setAnchor(GridBagConstraints.WEST);
             panelBuilder.setFill(GridBagConstraints.NONE);
-            panelBuilder.addLabelledComponent("Issuer:", X500NamePanelBuilder.getPanel(issuerX500name));
+            panelBuilder.addLabelledComponent("Subject:", X500NamePanelBuilder.getPanel(subjectX500name));
             panelBuilder.setFill(GridBagConstraints.HORIZONTAL);
+
+            if ( issuerX500name.equals(subjectX500name) ) {
+                panelBuilder.addLabelledText("", "Self-signed");
+            } else {
+                panelBuilder.setAnchor(GridBagConstraints.WEST);
+                panelBuilder.setFill(GridBagConstraints.NONE);
+                panelBuilder.addLabelledComponent("Issuer:", X500NamePanelBuilder.getPanel(issuerX500name));
+                panelBuilder.setFill(GridBagConstraints.HORIZONTAL);
+            }
+
+            notBefore = new JLabel(certificate.getNotBefore().toString());
+            if ( Date.from(Instant.now()).before(certificate.getNotBefore()) ) {
+                notBefore.setForeground(Color.RED);
+            }
+            panelBuilder.addLabelledComponent("Not before:", notBefore);
+
+            notAfter = new JLabel(certificate.getNotAfter().toString());
+            if ( Date.from(Instant.now()).after(certificate.getNotAfter()) ) {
+                notAfter.setForeground(Color.RED);
+            }
+            panelBuilder.addLabelledComponent("Not after:", notAfter);
+
+            panelBuilder.addLabelledText("Serial Number:", certificate.getSerialNumber().toString());
+            panelBuilder.addLabelledText("Version:", Integer.toString(certificate.getVersion()));
         }
-
-        notBefore = new JLabel(certificate.getNotBefore().toString());
-        if ( Date.from(Instant.now()).before(certificate.getNotBefore()) ) {
-            notBefore.setForeground(Color.RED);
-        }
-        panelBuilder.addLabelledComponent("Not before:", notBefore);
-
-        notAfter = new JLabel(certificate.getNotAfter().toString());
-        if ( Date.from(Instant.now()).after(certificate.getNotAfter()) ) {
-            notAfter.setForeground(Color.RED);
-        }
-        panelBuilder.addLabelledComponent("Not after:", notAfter);
-
-        panelBuilder.addLabelledText("Serial Number:", certificate.getSerialNumber().toString());
-        panelBuilder.addLabelledText("Version:", Integer.toString(certificate.getVersion()));
-
         return panelBuilder.getPanel();
     }
 

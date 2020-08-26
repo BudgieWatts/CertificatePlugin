@@ -6,7 +6,7 @@ plugins {
 mainClassName = 'dev.johnwatts.plugins.certificates.CertificateVerifier'
 
 group 'dev.johnwatts.plugins'
-version '1.0.2'
+version '1.0.3'
 
 sourceCompatibility = 11
 
@@ -29,5 +29,9 @@ patchPluginXml {
     untilBuild '202.*'
     changeNotes """
       Change untilBuild so plugin works with latest IntelliJ.
+      
+      Merge Pull Request from BenSlabbert <https://github.com/BenSlabbert> which handles mutliple certificates and also adds some tests.
+      
+      Many thanks Benjamin!
       """
 }
