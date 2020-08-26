@@ -26,9 +26,8 @@ intellij {
 
 patchPluginXml {
     sinceBuild '192.7142'
-    untilBuild '201.*'
+    untilBuild '202.*'
     changeNotes """
-      Force refresh of virtual file when plugin invoked - if you pasted a certificate into a file to replace the contents and then right clicked, the plugin would work with the previous contents unless the virtual file had been updated.
-      There may be a better way to deal with this (certainly not involving synchronous refreshes) but this should work for now.
+      Change untilBuild so plugin works with latest IntelliJ.
       """
 }
