@@ -2,10 +2,7 @@ package dev.johnwatts.plugins.certificates.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import dev.johnwatts.plugins.certificates.strategies.FindByBeginAndEnd;
 import dev.johnwatts.plugins.certificates.strategies.FindFromDer;
 import dev.johnwatts.plugins.certificates.strategies.FindFromPem;
@@ -23,11 +20,13 @@ import org.jetbrains.annotations.NotNull;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 public class DecodeBase64X509CertificateAction extends AnAction {
 
     static final List<FindingStrategy> strategies;
+
     static {
         strategies = List.of(new FindFromPem(), new FindFromDer(), new FindFromSelection(), new FindByBeginAndEnd());
     }
@@ -45,24 +44,30 @@ public class DecodeBase64X509CertificateAction extends AnAction {
 
         Result result = findCertificate(e);
 
-        X500Name x500name;
-        if ( result.getCertificate().isPresent() ) {
-            try {
-                x500name = new JcaX509CertificateHolder(result.getCertificate().get()).getSubject();
-            } catch (CertificateEncodingException ex) {
-                return;
+        if (!result.getCertificates().isEmpty()) {
+            StringBuilder menuText = new StringBuilder("Display certificate: ");
+            for (X509Certificate certificate : result.getCertificates()) {
+                X500Name x500name;
+                try {
+                    x500name = new JcaX509CertificateHolder(certificate).getSubject();
+                } catch (CertificateEncodingException ex) {
+                    return;
+                }
+                RDN[] rdns = x500name.getRDNs(BCStyle.CN);
+                menuText.append(IETFUtils.valueToString(rdns[0].getFirst().getValue()));
+                menuText.append(", ");
+                try {
+                    certificate.checkValidity();
+                } catch (CertificateExpiredException ex) {
+                    menuText.append(" [EXPIRED]");
+                } catch (CertificateNotYetValidException ex) {
+                    menuText.append(" [NOT YET VALID]");
+                }
             }
-            RDN[] rdns = x500name.getRDNs(BCStyle.CN);
-            String menuText = "Display certificate \"" + IETFUtils.valueToString(rdns[0].getFirst().getValue()) + "\"";
 
-            try {
-                result.getCertificate().get().checkValidity();
-            } catch (CertificateExpiredException ex) {
-                menuText += " [EXPIRED]";
-            } catch (CertificateNotYetValidException ex) {
-                menuText += " [NOT YET VALID]";
-            }
-            e.getPresentation().setText(menuText);
+            // remove trailing comma space
+            menuText.setLength(menuText.length() - 2);
+            e.getPresentation().setText(menuText.toString());
         } else {
             e.getPresentation().setEnabledAndVisible(false);
         }

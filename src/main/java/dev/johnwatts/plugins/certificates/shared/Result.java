@@ -1,14 +1,15 @@
 package dev.johnwatts.plugins.certificates.shared;
 
 import java.security.cert.X509Certificate;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 
 public class Result {
-    Optional<X509Certificate> certificate;
+    List<X509Certificate> certificates;
     String message;
 
     public Result() {
-        this.certificate = Optional.empty();
+        this.certificates = Collections.emptyList();
     }
 
     public static Result exceptionThrown(Exception e) {
@@ -23,16 +24,16 @@ public class Result {
         return result;
     }
 
-    public Optional<X509Certificate> getCertificate() {
-        return certificate;
+    public List<X509Certificate> getCertificates() {
+        return certificates;
     }
 
-    public void setCertificate(Optional<X509Certificate> certificate) {
-        this.certificate = certificate;
+    public void setCertificates(List<X509Certificate> certificates) {
+        this.certificates = certificates;
     }
 
     public boolean isSuccessful() {
-        return certificate.isPresent();
+        return !certificates.isEmpty();
     }
 
     public String getMessage() {

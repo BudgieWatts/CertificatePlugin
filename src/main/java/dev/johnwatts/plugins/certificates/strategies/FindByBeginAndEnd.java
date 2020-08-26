@@ -17,7 +17,8 @@ public class FindByBeginAndEnd extends FromEditorFindingStrategy {
         int endOfEncodedCert;
 
         Result result = new Result();
-        Editor editor = null;
+        Editor editor;
+
         try {
             editor = this.getSource(source);
             try {
@@ -31,12 +32,11 @@ public class FindByBeginAndEnd extends FromEditorFindingStrategy {
             editor.getSelectionModel().setSelection(
                     editor.getDocument().getLineStartOffset(startOfEncodedCert),
                     editor.getDocument().getLineEndOffset(endOfEncodedCert));
-            result.setCertificate(Base64X509Decoder.decode(editor.getSelectionModel().getSelectedText()));
+            result.setCertificates(parsePEM(editor.getSelectionModel().getSelectedText()));
             return result;
         } catch (NoSourceException e) {
-            result = Result.exceptionThrown(e);
+            return Result.noCertificateFound();
         }
-        return Result.noCertificateFound();
     }
 
     private int findStartOfEncodedCert(Editor editor) throws CertificateNotFoundException {
