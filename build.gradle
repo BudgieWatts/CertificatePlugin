@@ -6,7 +6,7 @@ plugins {
 mainClassName = 'dev.johnwatts.plugins.certificates.CertificateVerifier'
 
 group 'dev.johnwatts.plugins'
-version '1.0.5'
+version '1.0.6'
 
 sourceCompatibility = 11
 
@@ -21,14 +21,13 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2019.3'
+    version '2021.3'
 }
 
 patchPluginXml {
     sinceBuild '192.7142'
-    untilBuild '211.*'
+    untilBuild '213.*'
     changeNotes """
-      Alter way changes in files are detected.
       Change untilBuild so plugin works with latest IntelliJ.
       """
 }
