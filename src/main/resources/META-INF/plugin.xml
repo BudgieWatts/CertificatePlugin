@@ -8,7 +8,7 @@
     <li>Looks in the editor window for a PEM formatted cert to decode</li></ul>
     <p>Also checks whether encryption / decryption works for a given key pair.</p>
      ]]></description>
-    <idea-version since-build="192.7142" until-build="193.*"/>
+    <idea-version since-build="192.7142" until-build="223.*"/>
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->

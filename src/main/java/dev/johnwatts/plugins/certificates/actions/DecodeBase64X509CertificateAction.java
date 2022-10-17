@@ -3,6 +3,7 @@ package dev.johnwatts.plugins.certificates.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDocumentManager;
 import dev.johnwatts.plugins.certificates.strategies.FindByBeginAndEnd;
 import dev.johnwatts.plugins.certificates.strategies.FindFromDer;
 import dev.johnwatts.plugins.certificates.strategies.FindFromPem;
@@ -40,7 +41,17 @@ public class DecodeBase64X509CertificateAction extends AnAction {
     @Override
     public void update(AnActionEvent e) {
         Project project = e.getProject();
-        e.getPresentation().setEnabledAndVisible(project != null);
+
+        if (project == null) {
+            return;
+        }
+
+        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+        if (psiDocumentManager.hasUncommitedDocuments()) {
+            psiDocumentManager.commitAllDocuments();
+        }
+
+        e.getPresentation().setEnabledAndVisible(true);
 
         Result result = findCertificate(e);
 
