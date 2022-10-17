@@ -5,7 +5,6 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.util.DocumentUtil;
 import dev.johnwatts.plugins.certificates.shared.CertificateNotFoundException;
 import dev.johnwatts.plugins.certificates.shared.NoSourceException;
@@ -19,7 +18,6 @@ public class FindByBeginAndEnd extends FromEditorFindingStrategy {
 
         Result result = new Result();
         Editor editor;
-        FileDocumentManager.getInstance().saveAllDocuments();
         try {
             editor = this.getSource(source);
             try {
